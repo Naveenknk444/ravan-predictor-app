@@ -3,6 +3,13 @@ import 'package:go_router/go_router.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'app_routes.dart';
 
+// Auth screens
+import '../presentation/screens/auth/splash_screen.dart';
+import '../presentation/screens/auth/login_screen.dart';
+import '../presentation/screens/auth/signup_screen.dart';
+import '../presentation/screens/auth/otp_screen.dart';
+import '../presentation/screens/auth/welcome_bonus_screen.dart';
+
 // Placeholder screens - will be replaced with actual screens
 import '../presentation/screens/placeholder_screens.dart';
 
@@ -44,25 +51,33 @@ class AppRouter {
       // Splash screen
       GoRoute(
         path: AppRoutes.splash,
-        builder: (context, state) => const PlaceholderScreen(title: 'Splash'),
+        builder: (context, state) => const SplashScreen(),
       ),
 
       // Auth routes
       GoRoute(
         path: AppRoutes.login,
-        builder: (context, state) => const PlaceholderScreen(title: 'Login'),
+        builder: (context, state) => const LoginScreen(),
       ),
       GoRoute(
         path: AppRoutes.signup,
-        builder: (context, state) => const PlaceholderScreen(title: 'Sign Up'),
+        builder: (context, state) => const SignUpScreen(),
       ),
       GoRoute(
         path: AppRoutes.otp,
-        builder: (context, state) => const PlaceholderScreen(title: 'OTP Verification'),
+        builder: (context, state) {
+          final extra = state.extra as Map<String, dynamic>? ?? {};
+          return OTPScreen(
+            phone: extra['phone'] as String? ?? '',
+            name: extra['name'] as String?,
+            referralCode: extra['referralCode'] as String?,
+            isNewUser: extra['isNewUser'] as bool? ?? false,
+          );
+        },
       ),
       GoRoute(
         path: AppRoutes.welcomeBonus,
-        builder: (context, state) => const PlaceholderScreen(title: 'Welcome Bonus'),
+        builder: (context, state) => const WelcomeBonusScreen(),
       ),
       GoRoute(
         path: AppRoutes.forgotPassword,
